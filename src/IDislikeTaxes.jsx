@@ -241,10 +241,10 @@ const IDislikeTaxes = () => {
   const canDownload = userTier === 'basic' || userTier === 'lifetime';
   const { byCategory, byLine, totalDeductions } = step === 'results' ? calculateSummary() : { byCategory: {}, byLine: {}, totalDeductions: 0 };
   const estimatedSavings = totalDeductions * 0.393;
-
   return (
     <div className="min-h-screen bg-gray-50">
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); * { font-family: 'Inter', sans-serif; }`}</style>
+      
       <header className="border-b border-gray-200 bg-white sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center gap-3">
@@ -258,6 +258,7 @@ const IDislikeTaxes = () => {
           </div>
         </div>
       </header>
+
       <main className="max-w-5xl mx-auto px-6 py-12">
         {step === 'upload' && (
           <div className="max-w-3xl mx-auto">
@@ -269,42 +270,60 @@ const IDislikeTaxes = () => {
               <h2 className="text-4xl font-bold text-gray-900 mb-4">Find Every Tax Write-Off</h2>
               <p className="text-xl text-gray-600">Upload your bank statements (CSV or PDF). We'll categorize every YouTube business expense automatically.</p>
             </div>
-            <div onClick={() => fileInputRef.current?.click()} className="group border-2 border-dashed border-gray-300 rounded-2xl p-16 text-center hover:border-green-500 hover:bg-green-50 transition-all cursor-pointer bg-white">
+            
+            <div 
+              onClick={() => fileInputRef.current?.click()} 
+              className="group border-2 border-dashed border-gray-300 rounded-2xl p-16 text-center hover:border-green-500 hover:bg-green-50 transition-all cursor-pointer bg-white"
+            >
               <Upload className="w-16 h-16 text-gray-400 mx-auto mb-6 group-hover:text-green-600 transition-colors" />
               <p className="text-xl font-semibold text-gray-900 mb-2">Upload your files</p>
               <p className="text-sm text-gray-500 mb-4">CSV or PDF • Multiple files supported</p>
-              <input ref={fileInputRef} type="file" accept=".csv,.pdf" multiple onChange={handleFileUpload} className="hidden" />
+              <input 
+                ref={fileInputRef} 
+                type="file" 
+                accept=".csv,.pdf" 
+                multiple 
+                onChange={handleFileUpload} 
+                className="hidden" 
+              />
             </div>
           </div>
         )}
+
         {step === 'processing' && (
           <div className="max-w-md mx-auto text-center py-20">
             <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full mx-auto mb-6 animate-spin"></div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Analyzing transactions...</h2>
           </div>
         )}
+
         {step === 'results' && (
           <div>
             <div className="text-center mb-12">
               <h1 className="text-4xl font-bold text-gray-900 mb-8">Your Tax Summary</h1>
+              
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <div className="bg-white rounded-xl shadow-sm border p-8">
                   <div className="text-sm font-medium text-gray-500 mb-2">Total Deductions</div>
                   <div className="text-5xl font-bold text-gray-900">${Math.round(totalDeductions).toLocaleString()}</div>
                 </div>
+                
                 <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg p-8 text-white">
                   <div className="text-sm font-medium text-green-100 mb-2">Est. Savings</div>
                   <div className="text-5xl font-bold">${Math.round(estimatedSavings).toLocaleString()}</div>
                 </div>
+
                 <div className="bg-white rounded-xl shadow-sm border p-8">
                   <div className="text-sm font-medium text-gray-500 mb-2">Transactions</div>
                   <div className="text-5xl font-bold text-gray-900">{classified.length}</div>
                 </div>
               </div>
             </div>
+
             {!emailCaptured ? (
               <div className="bg-white rounded-xl shadow-sm border p-8 mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">What We Found:</h2>
+                
                 <div className="space-y-4">
                   {Object.entries(byCategory).sort((a, b) => b[1].amount - a[1].amount).map(([category, data]) => (
                     <div key={category} className="border-b border-gray-100 pb-4 last:border-0">
@@ -324,43 +343,67 @@ const IDislikeTaxes = () => {
                     </div>
                   ))}
                 </div>
+                
                 <div className="mt-10 p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl border">
                   <div className="text-center mb-6">
                     <Mail className="w-16 h-16 text-green-600 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-gray-900 mb-2">See Full Breakdown</h2>
                     <p className="text-gray-600">Get Schedule C line numbers + transaction details</p>
                   </div>
+                  
                   <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto space-y-3">
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" required className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500" />
-                    <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg">Continue (Free) →</button>
+                    <input 
+                      type="email" 
+                      value={email} 
+                      onChange={(e) => setEmail(e.target.value)} 
+                      placeholder="your@email.com" 
+                      required 
+                      className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500" 
+                    />
+                    <button 
+                      type="submit" 
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg"
+                    >
+                      Continue (Free) →
+                    </button>
                   </form>
                 </div>
               </div>
             ) : (
               <div>
                 <div className="bg-white rounded-xl shadow-sm border p-8 mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2"><FileText className="text-green-600" size={28} />Schedule C Breakdown</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                    <FileText className="text-green-600" size={28} />
+                    Schedule C Breakdown
+                  </h2>
+                  
                   <div className="space-y-6">
                     {Object.entries(byLine).sort((a, b) => parseFloat(a[0].replace('a', '.1').replace('b', '.2')) - parseFloat(b[0].replace('a', '.1').replace('b', '.2'))).map(([line, data]) => (
                       <div key={line} className="border-b pb-6 last:border-0">
                         <div className="flex items-center justify-between mb-4">
                           <div>
-                            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Schedule C Line {line}</div>
+                            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                              Schedule C Line {line}
+                            </div>
                             <h3 className="text-lg font-semibold text-gray-900">{data.lineName}</h3>
                             <p className="text-sm text-gray-500 mt-1">{data.categories.join(', ')}</p>
                           </div>
-                          <div className="text-3xl font-bold text-gray-900">${Math.round(data.amount).toLocaleString()}</div>
+                          <div className="text-3xl font-bold text-gray-900">
+                            ${Math.round(data.amount).toLocaleString()}
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
+
                 {!canDownload ? (
                   <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg border p-8">
                     <div className="text-center mb-8">
                       <h2 className="text-3xl font-bold text-gray-900 mb-3">Download Your Tax Files</h2>
                       <p className="text-lg text-gray-600">Get Schedule C PDF + CSV to file your taxes</p>
                     </div>
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                       <div className="bg-white rounded-xl border-2 p-6">
                         <div className="text-center mb-4">
@@ -368,38 +411,90 @@ const IDislikeTaxes = () => {
                           <div className="text-5xl font-bold text-gray-900 mb-2">$27</div>
                         </div>
                         <ul className="space-y-3 mb-6">
-                          <li className="flex items-start gap-2 text-sm"><CheckCircle className="text-green-600 flex-shrink-0 mt-0.5" size={18} /><span>Upload unlimited 6 months</span></li>
-                          <li className="flex items-start gap-2 text-sm"><CheckCircle className="text-green-600 flex-shrink-0 mt-0.5" size={18} /><span>Schedule C PDF + CSV</span></li>
-                          <li className="flex items-start gap-2 text-sm"><CheckCircle className="text-green-600 flex-shrink-0 mt-0.5" size={18} /><span>Filing instructions</span></li>
+                          <li className="flex items-start gap-2 text-sm">
+                            <CheckCircle className="text-green-600 flex-shrink-0 mt-0.5" size={18} />
+                            <span>Upload unlimited 6 months</span>
+                          </li>
+                          <li className="flex items-start gap-2 text-sm">
+                            <CheckCircle className="text-green-600 flex-shrink-0 mt-0.5" size={18} />
+                            <span>Schedule C PDF + CSV</span>
+                          </li>
+                          <li className="flex items-start gap-2 text-sm">
+                            <CheckCircle className="text-green-600 flex-shrink-0 mt-0.5" size={18} />
+                            <span>Filing instructions</span>
+                          </li>
                         </ul>
-                        <button onClick={() => handlePurchase('basic')} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 rounded-lg">Get 6-Month Pass - $27</button>
+                        <button 
+                          onClick={() => handlePurchase('basic')} 
+                          className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 rounded-lg"
+                        >
+                          Get 6-Month Pass - $27
+                        </button>
                       </div>
+
                       <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-xl p-6 text-white relative">
-                        <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg">LIMITED TIME</div>
+                        <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg">
+                          LIMITED TIME
+                        </div>
                         <div className="text-center mb-4">
                           <div className="text-2xl font-bold mb-2">Lifetime Access</div>
                           <div className="text-5xl font-bold mb-2">$97</div>
                         </div>
                         <ul className="space-y-3 mb-6">
-                          <li className="flex items-start gap-2 text-sm"><CheckCircle className="flex-shrink-0 mt-0.5" size={18} /><span>Upload unlimited forever</span></li>
-                          <li className="flex items-start gap-2 text-sm"><CheckCircle className="flex-shrink-0 mt-0.5" size={18} /><span>All future features</span></li>
-                          <li className="flex items-start gap-2 text-sm"><CheckCircle className="flex-shrink-0 mt-0.5" size={18} /><span>2025, 2026, 2027... lifetime</span></li>
+                          <li className="flex items-start gap-2 text-sm">
+                            <CheckCircle className="flex-shrink-0 mt-0.5" size={18} />
+                            <span>Upload unlimited forever</span>
+                          </li>
+                          <li className="flex items-start gap-2 text-sm">
+                            <CheckCircle className="flex-shrink-0 mt-0.5" size={18} />
+                            <span>All future features</span>
+                          </li>
+                          <li className="flex items-start gap-2 text-sm">
+                            <CheckCircle className="flex-shrink-0 mt-0.5" size={18} />
+                            <span>2025, 2026, 2027... lifetime</span>
+                          </li>
                         </ul>
-                        <div className="bg-green-700 rounded-lg p-3 mb-4 text-sm text-center font-semibold">💰 Save $81+ vs annual</div>
-                        <button onClick={() => handlePurchase('lifetime')} className="w-full bg-white hover:bg-gray-100 text-green-600 font-bold py-3 rounded-lg">Get Lifetime - $97 →</button>
+                        <div className="bg-green-700 rounded-lg p-3 mb-4 text-sm text-center font-semibold">
+                          💰 Save $81+ vs annual
+                        </div>
+                        <button 
+                          onClick={() => handlePurchase('lifetime')} 
+                          className="w-full bg-white hover:bg-gray-100 text-green-600 font-bold py-3 rounded-lg"
+                        >
+                          Get Lifetime - $97 →
+                        </button>
                       </div>
                     </div>
+                    
                     <div className="flex items-center justify-center gap-8 mt-8 text-sm text-gray-500">
-                      <div className="flex items-center gap-2"><Shield size={16} /><span>Secure checkout</span></div>
-                      <div className="flex items-center gap-2"><Zap size={16} /><span>Instant access</span></div>
+                      <div className="flex items-center gap-2">
+                        <Shield size={16} />
+                        <span>Secure checkout</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Zap size={16} />
+                        <span>Instant access</span>
+                      </div>
                     </div>
                   </div>
                 ) : (
                   <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-lg p-8 text-white text-center">
                     <h3 className="text-2xl font-bold mb-3">Download Your Files</h3>
                     <div className="flex gap-4 justify-center">
-                      <button onClick={() => downloadFile(generateScheduleCSummary(), 'Schedule-C-2024.txt', 'text/plain')} className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 flex items-center gap-2"><Download size={20} />Schedule C</button>
-                      <button onClick={() => downloadFile(generateDetailedCSV(), 'Transactions-2024.csv', 'text/csv')} className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 flex items-center gap-2"><Download size={20} />CSV</button>
+                      <button 
+                        onClick={() => downloadFile(generateScheduleCSummary(), 'Schedule-C-2024.txt', 'text/plain')} 
+                        className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 flex items-center gap-2"
+                      >
+                        <Download size={20} />
+                        Schedule C
+                      </button>
+                      <button 
+                        onClick={() => downloadFile(generateDetailedCSV(), 'Transactions-2024.csv', 'text/csv')} 
+                        className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 flex items-center gap-2"
+                      >
+                        <Download size={20} />
+                        CSV
+                      </button>
                     </div>
                   </div>
                 )}
