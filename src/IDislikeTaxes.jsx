@@ -243,7 +243,7 @@ const IDislikeTaxes = () => {
   const estimatedSavings = totalDeductions * 0.393;
   return (
     <div className="min-h-screen bg-gray-50">
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); * { font-family: 'Inter', sans-serif; }`}</style>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); * { font-family: 'Inter', sans-serif; } .max-w-5xl { max-width: 64rem; } .mx-auto { margin-left: auto; margin-right: auto; } .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; } .py-12 { padding-top: 3rem; padding-bottom: 3rem; }`}</style>
       
       <header className="border-b border-gray-200 bg-white sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-4">
